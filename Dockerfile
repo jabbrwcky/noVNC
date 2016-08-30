@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 
+EXPOSE 6080
+
 RUN apt-get update && apt-get install -y \
           apt-utils \
           net-tools \
@@ -9,6 +11,4 @@ RUN apt-get update && apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
 
 COPY . /app/
-CMD [ "/app/utils/launch.sh" ]
-
-EXPOSE 6080
+ENTRYPOINT [ "/app/utils/launch.sh" ]
