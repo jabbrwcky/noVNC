@@ -24,6 +24,10 @@ usage() {
     echo "                          Default: ./"
     echo "    --ssl-only            Disable non-https connections."
     echo "                                    "
+    echo "    --token-plugin        Plugin to use for tokens"
+    echo "                                    "
+    echo "    --token-source        source information for tokens"
+    echo "                                    "
     exit 2
 }
 
@@ -61,8 +65,10 @@ while [ "$*" ]; do
     --listen)  PORT="${OPTARG}"; shift            ;;
     --vnc)     VNC_DEST="${OPTARG}"; shift        ;;
     --cert)    CERT="${OPTARG}"; shift            ;;
-    --web)     WEB="${OPTARG}"; shift            ;;
-    --ssl-only) SSLONLY="--ssl-only"             ;;
+    --web)     WEB="${OPTARG}"; shift             ;;
+    --ssl-only) SSLONLY="--ssl-only"              ;;
+    --token-plugin) TPLUGIN="${OPTARG}"; shift    ;;
+    --token-source) TSOURCE="${OPTARG}", shift    ;;
     -h|--help) usage                              ;;
     -*) usage "Unknown chrooter option: ${param}" ;;
     *) break                                      ;;
@@ -142,7 +148,12 @@ fi
 
 echo "Starting webserver and WebSockets proxy on port ${PORT}"
 #${HERE}/websockify --web ${WEB} ${CERT:+--cert ${CERT}} ${PORT} ${VNC_DEST} &
-${WEBSOCKIFY} ${SSLONLY} --web ${WEB} ${CERT:+--cert ${CERT}} ${PORT} ${VNC_DEST} &
+${WEBSOCKIFY} ${SSLONLY} --web ${WEB} \
+  ${CERT:+--cert ${CERT}} \
+  ${TPLUGIN:+--token-plugin ${TPLUGIN}} \
+  ${TSOURCE:+--token-source ${TSOURCE}} \
+  ${PORT} ${VNC_DEST} &
+
 proxy_pid="$!"
 sleep 1
 if ! ps -p ${proxy_pid} >/dev/null; then
