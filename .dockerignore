@@ -4,5 +4,7 @@
 !images/
 !include/
 !utils/
+!app/
+!core/
 !favicon.ico
 !LICENSE.txt
