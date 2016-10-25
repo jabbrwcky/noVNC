@@ -11,4 +11,6 @@ RUN apt-get update && apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
 
 COPY . /app/
-ENTRYPOINT [ "/app/utils/launch.sh" ]
+WORKDIR /app
+
+ENTRYPOINT [ "utils/launch.sh" ]
