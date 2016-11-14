@@ -68,7 +68,7 @@ while [ "$*" ]; do
     --web)     WEB="${OPTARG}"; shift             ;;
     --ssl-only) SSLONLY="--ssl-only"              ;;
     --token-plugin) TPLUGIN="${OPTARG}"; shift    ;;
-    --token-source) TSOURCE="${OPTARG}", shift    ;;
+    --token-source) TSOURCE="${OPTARG}"; shift    ;;
     -h|--help) usage                              ;;
     -*) usage "Unknown chrooter option: ${param}" ;;
     *) break                                      ;;
